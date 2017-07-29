@@ -1,0 +1,25 @@
+#php_flag display_errors on
+SetEnv APPLICATION_ENV local
+SetEnv ZF2_PATH /var/www/html/ZF2/library
+php_value memory_limit 1024M
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^testzf(/.*)?$ index_zf2.php [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+
+Order Deny,Allow
+Deny from 139.59.72.141
+Deny from 122.161.63.64 
+Deny from 103.68.219.181 
+Deny from 5.196.1.129 
+Deny from 23.27.245.79
+Deny from 106.51.227.113
+Deny from 223.186.55.90
+Deny from 35.154.207.210
+Deny from 122.171.144.152
+Deny from 153.92.0.7
+Deny from 49.34.155.236
+Deny from 43.224.128.142
