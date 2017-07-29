@@ -491,7 +491,7 @@ class kabaddiInfoApiController extends AbstractRestfulController
 			else if($country == 7){ 
 		$infoObject = array(
 		    "interstitialOnLaunch" => "false",
-		    "interstitialInSearch" => "false",
+		    "interstitialInSearch" => "true",
 		    "interstitialInSearchEveryTime" => "true",
 		    "interstitialOnSearchAnother" =>  "true",
 		    "interstitialOnGoHome"=> "true",
