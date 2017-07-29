@@ -426,7 +426,7 @@ class kabaddiInfoApiController extends AbstractRestfulController
 		    "rateAppAlertDelay"=> "7000",
 		    "enableWebview" => "true",
 		    "enableRTOCodes" => "false",
-		    "customeRating" => "true",
+		    "customeRating" => "false",
 			"webViewUrl" => "https://vahan.nic.in/nrservices/faces/user/jsp/SearchStatus.jsp",
 			// "webViewUrl" => "http://aapthitech.com/ea/countryswebservices/version.html",
 			// "webViewUrl" => "https://parivahan.gov.in/rcdlstatus/vahan/rcDlHome.xhtml",
@@ -588,7 +588,7 @@ class kabaddiInfoApiController extends AbstractRestfulController
 		else if($country == 8){
 		$infoObject = array(
 		    "interstitialOnLaunch" => "false",
-		    "interstitialInSearch" => "false",
+		    "interstitialInSearch" => "true",
 		    "interstitialInSearchEveryTime" => "true",
 		    "interstitialOnSearchAnother" =>  "true",
 		    "interstitialOnGoHome"=> "true",
@@ -687,7 +687,7 @@ class kabaddiInfoApiController extends AbstractRestfulController
 		else if($country == 9){
 		$infoObject = array(
 		    "interstitialOnLaunch" => "false",
-		    "interstitialInSearch" => "false",
+		    "interstitialInSearch" => "true",
 		    "interstitialInSearchEveryTime" => "true",
 		    "interstitialOnSearchAnother" =>  "true",
 		    "interstitialOnGoHome"=> "true",
@@ -787,7 +787,7 @@ class kabaddiInfoApiController extends AbstractRestfulController
 		else if($country == 10){
 		$infoObject = array(
 		    "interstitialOnLaunch" => "false",
-		    "interstitialInSearch" => "false",
+		    "interstitialInSearch" => "true",
 		    "interstitialInSearchEveryTime" => "true",
 		    "interstitialOnSearchAnother" =>  "true",
 		    "interstitialOnGoHome"=> "true",
