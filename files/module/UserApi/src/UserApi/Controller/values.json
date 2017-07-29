@@ -1,0 +1,17 @@
+{
+        "interstitialOnLaunch": "false",
+        "interstitialOnSearchAnother": "false",
+        "interstitialOnGoHome": "false",
+        "bannerOnTop": "true",
+        "serverTimeOurDuration": "90000",
+        "rateAppAlertDelay": "7000",
+        "enableWebview": "false",
+        "vehicleNotFoundMessage": "This app get data from known government records. Please verify with concern department",
+        "noData": "There is some technical issues, please try again",
+        "siteDownMessage": "Server is down, please try after some time",
+        "ourApp1Link": "https://play.google.com/store/apps/details?id=com.suitableapps.dhoni",
+        "ourApp1icon": "img/dhoni.png",
+		"ourApp2Link": "https://play.google.com/store/apps/details?id=com.suitableapps.dlinfo",
+        "ourApp2icon": "img/dl.png",
+        "usedCaptcha": "true"
+}
