@@ -301,7 +301,7 @@ class kabaddiInfoApiController extends AbstractRestfulController
 		else if($country == 5){
 		$infoObject = array(
 		    "interstitialOnLaunch" => "false",
-		    "interstitialInSearch" => "false",
+		    "interstitialInSearch" => "true",
 		    "interstitialInSearchEveryTime" => "true",
 		    "interstitialOnSearchAnother" =>  "true",
 		    "interstitialOnGoHome"=> "true",
@@ -389,7 +389,7 @@ class kabaddiInfoApiController extends AbstractRestfulController
 		    "search4"=>"false", // our db + web
 		    "search5"=>"false",
 		    "search6"=>"false", //
-			"search7"=>"2",
+			"search7"=>"1",
 		    "usedCaptcha"=> "false"
 			);
 		}
