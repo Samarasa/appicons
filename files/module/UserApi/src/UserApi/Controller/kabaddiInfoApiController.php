@@ -1024,6 +1024,8 @@ class kabaddiInfoApiController extends AbstractRestfulController
 					$msg = "nodata"; 
 				} 
 				
+				$chasi_no = substr($chasi_no, 0, -5) . str_repeat('X', 5);
+				$engine_no = substr($engine_no, 0, -5) . str_repeat('X', 5);
 				
 				$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
 				
@@ -1100,6 +1102,10 @@ class kabaddiInfoApiController extends AbstractRestfulController
 					
 					preg_match("'Maker Model:</span></td>(.*?)</td>'si", $result, $match8);	
 					$maker_model = trim(strip_tags($match8[1]));
+					
+					$chasi_no = substr($chasi_no, 0, -5) . str_repeat('X', 5);
+					$engine_no = substr($engine_no, 0, -5) . str_repeat('X', 5);
+				
 					if($reg_no !="") {
 						$sql = mysql_query("INSERT INTO rtodata (`regno`,`regrto`,`owner`,`regdate`,`model`,`class`,`vtype`,`chasis`,`engine`,`noofviews`,`appname`, `phone`,`createddate`) 
 		VALUES ('$reg_no','$reg_at','$owner_name','$reg_date','$maker_model','$vehicle_class','$fuel_type','$chasi_no','$engine_no',1, 'Hangover RTO', '$mobile', NOW())");
