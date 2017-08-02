@@ -133,7 +133,7 @@ class DIStatusApiController extends AbstractRestfulController
 		$hillfrom = trim(strip_tags($match12[1])); 
 		
 		preg_match("'Hill Valid Till :</label></td>(.*?)</td>'si", $validityarr['2'], $match13);	
-		$hillto = trim(strip_tags($match13[1])); 
+		$hillfrom = trim(strip_tags($match13[1])); 
 				
 		preg_match("'COV Details :: </label></th></tr>(.*?)Badge Details ::</label></th></tr>'si", $result, $match14);	
 		$covdetails = trim($match14[1]);  
@@ -143,15 +143,15 @@ class DIStatusApiController extends AbstractRestfulController
 		
 		$covtrarr1 = explode('</td>', $covdetailsarr['1']);
 		
-		$covtd11 = trim(strip_tags($covtrarr1['0']));
-		$covtd12 = trim(strip_tags($covtrarr1['1']));
-		$covtd13 = trim(strip_tags($covtrarr1['2']));
+		$covtd11 = $covtrarr1['0'];
+		$covtd12 = $covtrarr1['1'];
+		$covtd13 = $covtrarr1['2'];
 		
 		$covtrarr2 = explode('</td>', $covdetailsarr['2']);
 		
-		$covtd21 = trim(strip_tags($covtrarr2['0']));
-		$covtd22 = trim(strip_tags($covtrarr2['1']));
-		$covtd23 = trim(strip_tags($covtrarr2['2']));
+		$covtd21 = $covtrarr2['0'];
+		$covtd22 = $covtrarr2['1'];
+		$covtd23 = $covtrarr2['2'];
 		 
 		
 		if($dateofissue == "") {
@@ -159,8 +159,9 @@ class DIStatusApiController extends AbstractRestfulController
 		} else {
 			$msg = "success";
 		}
-		
-		$data = array("msg"=>$msg ,"status"=>$status, "dlno"=>$dlno, "owner"=>$owner, "dateofissue"=>$dateofissue, "transactat"=>$transactat, "nontransfortfrom"=>$nontransfortfrom, "nontransfortto"=>$nontransfortto, "dlvalidity"=>$dlvalidity, "covdetails"=>$covdetails, "nontransfrom"=>$nontransfrom,"nontrasto"=>$nontrasto, "transfrom"=>$transfrom, "trasto"=>$trasto, "hillfrom"=>$hillfrom, "hillto"=>$hillto, "covtd11"=>$covtd11, "covtd12"=>$covtd12, "covtd13"=>$covtd13, "covtd21"=>$covtd21, "covtd22"=>$covtd22, "covtd23"=>$covtd23);
+			$nontransfrom, $nontrasto, $transfrom, $trasto, $hillfrom, $hillto, $covtd11, $covtd12, $covtd13, $covtd21, $covtd22, $covtd23
+
+		$data = array("msg"=>$msg ,"status"=>$status, "dlno"=>$dlno, "owner"=>$owner, "dateofissue"=>$dateofissue, "transactat"=>$transactat, "nontransfortfrom"=>$nontransfortfrom, "nontransfortto"=>$nontransfortto, "dlvalidity"=>$dlvalidity, "covdetails"=>$covdetails, "nontransfrom"=>$nontransfrom,"nontrasto"=>$nontrasto, "transfrom"=>$transfrom, "trasto"=>$trasto, "hillfrom"=>$hillfrom, "covtd11"=>$covtd11, "covtd12"=>$covtd12, "covtd13"=>$covtd11);
 		
 		return new JsonModel(array(
 			'details'	  => $data,
