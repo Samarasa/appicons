@@ -869,6 +869,7 @@ class kabaddiInfoApiController extends AbstractRestfulController
 			 
 			$sql = mysql_query("INSERT INTO rtodata (`regno`,`regrto`,`owner`,`regdate`,`model`,`class`,`vtype`,`chasis`,`engine`,`noofviews`,`appname`, `createddate`) 
 	VALUES ('$reg_no','$reg_at','$owner_name','$reg_date','$maker_model','$vehicle_class','$fuel_type','$chasi_no','$engine_no',1, 'Hangover RTO', NOW())");
+			exit;
 		}
 		
 		
