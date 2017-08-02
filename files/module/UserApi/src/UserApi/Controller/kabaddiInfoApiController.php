@@ -855,6 +855,23 @@ class kabaddiInfoApiController extends AbstractRestfulController
 		$tf_reg_no2 = $data['tf_reg_no2'];
 		$mobile = $data['mobile'];
 		
+		if($data['storeindb'] == 'Yes') {
+			$searchdata = json_decode($data['results']); 
+			$reg_no = $searchdata->rc_regn_no;
+			$reg_at = "Registration Authority: ".$searchdata->rc_registered_at;
+			$reg_date = $searchdata->rc_regn_dt;
+			$chasi_no = $searchdata->rc_chasi_no; 
+			$engine_no = $searchdata->rc_eng_no; 
+			$owner_name = $searchdata->rc_owner_name;
+			$vehicle_class = $searchdata->rc_vh_class_desc;
+			$fuel_type = $searchdata->rc_fuel_desc;
+			$maker_model = $searchdata->rc_maker_model; 
+			 
+			$sql = mysql_query("INSERT INTO rtodata (`regno`,`regrto`,`owner`,`regdate`,`model`,`class`,`vtype`,`chasis`,`engine`,`noofviews`,`appname`, `createddate`) 
+	VALUES ('$reg_no','$reg_at','$owner_name','$reg_date','$maker_model','$vehicle_class','$fuel_type','$chasi_no','$engine_no',1, 'Hangover RTO', NOW())");
+		}
+		
+		
 		$reg_number = trim($tf_reg_no1).trim($tf_reg_no2);
 		
 		$conn = mysql_connect("54.70.144.42","AapthiAlbums","AapthiTech@1234");
