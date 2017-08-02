@@ -115,10 +115,44 @@ class DIStatusApiController extends AbstractRestfulController
 		$dlvalidity = trim($match7[1]);   
 		$dlvalidity = substr($dlvalidity, 26, (strlen($dlvalidity) - 133)); 
 		
+		$validityarr = explode('</tr>', $dlvalidity);
 		
-		preg_match("'COV Details :: </label></th></tr>(.*?)Badge Details ::</label></th></tr>'si", $result, $match8);	
-		$covdetails = trim($match8[1]);  
+		preg_match("'From :</label></td>(.*?)</td>'si", $validityarr['0'], $match8);	
+		$nontransfrom = trim(strip_tags($match8[1])); 
+		
+		preg_match("'To :</label></td>(.*?)</td>'si", $validityarr['0'], $match9);	
+		$nontrasto = trim(strip_tags($match9[1])); 
+		
+		preg_match("'From :</label></td>(.*?)</td>'si", $validityarr['1'], $match10);	
+		$transfrom = trim(strip_tags($match10[1])); 
+		
+		preg_match("'To :</label></td>(.*?)</td>'si", $validityarr['1'], $match11);	
+		$trasto = trim(strip_tags($match11[1])); 
+		
+		preg_match("'Hazardous Valid Till :</label></td>(.*?)</td>'si", $validityarr['2'], $match12);	
+		$hillfrom = trim(strip_tags($match12[1])); 
+		
+		preg_match("'Hill Valid Till :</label></td>(.*?)</td>'si", $validityarr['2'], $match13);	
+		$hillto = trim(strip_tags($match13[1])); 
+				
+		preg_match("'COV Details :: </label></th></tr>(.*?)Badge Details ::</label></th></tr>'si", $result, $match14);	
+		$covdetails = trim($match14[1]);  
 		$covdetails = substr($covdetails, 26, (strlen($covdetails) - 133)); 
+		
+		$covdetailsarr = explode('</tr>', $covdetails);
+		
+		$covtrarr1 = explode('</td>', $covdetailsarr['1']);
+		
+		$covtd11 = trim(strip_tags($covtrarr1['0']));
+		$covtd12 = trim(strip_tags($covtrarr1['1']));
+		$covtd13 = trim(strip_tags($covtrarr1['2']));
+		
+		$covtrarr2 = explode('</td>', $covdetailsarr['2']);
+		
+		$covtd21 = trim(strip_tags($covtrarr2['0']));
+		$covtd22 = trim(strip_tags($covtrarr2['1']));
+		$covtd23 = trim(strip_tags($covtrarr2['2']));
+		 
 		
 		if($dateofissue == "") {
 			$msg = "nodata";
@@ -126,7 +160,7 @@ class DIStatusApiController extends AbstractRestfulController
 			$msg = "success";
 		}
 		
-		$data = array("msg"=>$msg ,"status"=>$status, "dlno"=>$dlno, "owner"=>$owner, "dateofissue"=>$dateofissue, "transactat"=>$transactat, "nontransfortfrom"=>$nontransfortfrom, "nontransfortto"=>$nontransfortto, "dlvalidity"=>$dlvalidity, "covdetails"=>$covdetails);
+		$data = array("msg"=>$msg ,"status"=>$status, "dlno"=>$dlno, "owner"=>$owner, "dateofissue"=>$dateofissue, "transactat"=>$transactat, "nontransfortfrom"=>$nontransfortfrom, "nontransfortto"=>$nontransfortto, "dlvalidity"=>$dlvalidity, "covdetails"=>$covdetails, "nontransfrom"=>$nontransfrom,"nontrasto"=>$nontrasto, "transfrom"=>$transfrom, "trasto"=>$trasto, "hillfrom"=>$hillfrom, "hillto"=>$hillto, "covtd11"=>$covtd11, "covtd12"=>$covtd12, "covtd13"=>$covtd13, "covtd21"=>$covtd21, "covtd22"=>$covtd22, "covtd23"=>$covtd23);
 		
 		return new JsonModel(array(
 			'details'	  => $data,
