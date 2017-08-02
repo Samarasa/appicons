@@ -855,6 +855,10 @@ class kabaddiInfoApiController extends AbstractRestfulController
 		$tf_reg_no2 = $data['tf_reg_no2'];
 		$mobile = $data['mobile'];
 		
+		$conn = mysql_connect("54.70.144.42","AapthiAlbums","AapthiTech@1234");
+		mysql_select_db("myquotes",$conn);
+		
+		
 		if($data['storeindb'] == 'Yes') {
 			$searchdata = json_decode($data['results']); 
 			$reg_no = $searchdata->rc_regn_no;
@@ -868,15 +872,12 @@ class kabaddiInfoApiController extends AbstractRestfulController
 			$maker_model = $searchdata->rc_maker_model; 
 			 
 			$sql = mysql_query("INSERT INTO rtodata (`regno`,`regrto`,`owner`,`regdate`,`model`,`class`,`vtype`,`chasis`,`engine`,`noofviews`,`appname`, `createddate`) 
-	VALUES ('$reg_no','$reg_at','$owner_name','$reg_date','$maker_model','$vehicle_class','$fuel_type','$chasi_no','$engine_no',1, 'Hangover RTO', NOW())");
+	VALUES ('$reg_no','$reg_at','$owner_name','$reg_date','$maker_model','$vehicle_class','$fuel_type','$chasi_no','$engine_no',1, 'mparivahan RTO', NOW())");
 			exit;
 		}
 		
 		
 		$reg_number = trim($tf_reg_no1).trim($tf_reg_no2);
-		
-		$conn = mysql_connect("54.70.144.42","AapthiAlbums","AapthiTech@1234");
-		mysql_select_db("myquotes",$conn);
 		
 		$sql=mysql_query("SELECT * FROM rtodata WHERE regno = '$reg_number'");
 		$num_rows = mysql_num_rows($sql);
