@@ -373,8 +373,8 @@ class kabaddiInfoApiController extends AbstractRestfulController
 			"ourApp1icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/dlinfo2.png",
 			"ourApp2Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.agecalculator",
 			"ourApp2icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/age2.png",
-			"ourApp3Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.bankbalance",
-			"ourApp3icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/banks.png",
+			"ourApp3Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.mileagecalculator",
+			"ourApp3icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/mileage.png",
 			"ourApp4Link"=> "https://play.google.com/store/apps/developer?id=Most+Usefull+Apps",
 			"ourApp4icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/usefullapps.png",
 			"ourApp5Link"=> "https://play.google.com/store/apps/details?id=com.hangoverstudios.apvehicleownerdetails",
@@ -383,8 +383,8 @@ class kabaddiInfoApiController extends AbstractRestfulController
 			"ourApp6icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/govt_apps.png",
 			"ourApp7Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.jiophone",
 			"ourApp7icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/jiophone.png",
-			"ourApp8Link"=> "",
-			"ourApp8icon"=> "",
+			"ourApp8Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.bankbalance",
+			"ourApp8icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/banks.png",
 			"ourApp9Link"=> "",
 			"ourApp9icon"=> "",
 			// "ourApp8Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.dlinfo",
@@ -405,7 +405,7 @@ class kabaddiInfoApiController extends AbstractRestfulController
 		    "search4"=>"false", // our db + web
 		    "search5"=>"false",
 		    "search6"=>"false", //
-			"search7"=>"3",
+			"search7"=>"5",
 		    "usedCaptcha"=> "false"
 			);
 		}
@@ -557,8 +557,8 @@ class kabaddiInfoApiController extends AbstractRestfulController
 			"ourApp1icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/dlinfo2.png",
 			"ourApp2Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.agecalculator",
 			"ourApp2icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/age2.png",
-			"ourApp3Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.bankbalance",
-			"ourApp3icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/banks.png",
+			"ourApp3Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.mileagecalculator",
+			"ourApp3icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/mileage.png",
 			"ourApp4Link"=> "https://play.google.com/store/apps/developer?id=Most+Usefull+Apps",
 			"ourApp4icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/usefullapps.png",
 			"ourApp5Link"=> "https://play.google.com/store/apps/details?id=com.hangoverstudios.apvehicleownerdetails",
@@ -567,8 +567,8 @@ class kabaddiInfoApiController extends AbstractRestfulController
 			"ourApp6icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/govt_apps.png",
 			"ourApp7Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.jiophone",
 			"ourApp7icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/jiophone.png",
-			"ourApp8Link"=> "",
-			"ourApp8icon"=> "",
+			"ourApp8Link"=> "https://play.google.com/store/apps/details?id=com.mostusefullapps.bankbalance",
+			"ourApp8icon"=> "https://raw.githubusercontent.com/Samarasa/appicons/master/images/banks.png",
 			"ourApp9Link"=> "",
 			"ourApp9icon"=> "",
 			"ourApp10Link"=>"2dAKr5uCE+DLmD0NbUDqrWizfssj5p73kYmWsD/A60PjozqgRtsfJFevq8h9FZ+d",
