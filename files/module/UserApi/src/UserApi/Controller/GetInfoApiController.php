@@ -90,7 +90,86 @@ class GetInfoApiController extends AbstractRestfulController
 		$reg_number = str_replace(" ", "", $reg_number);
 		
 		$ipadd = $_SERVER['REMOTE_ADDR'];
-		$insertedValue = $this->insertIpaddr($ipadd);
+		//$insertedValue = $this->insertIpaddr($ipadd);
+		
+		
+		//if($getfromdb =="yes") { 
+		if($data['extra1'] == "11" && $data['extra1'] == "12") { 
+			$reg_no = "";
+			$burl = "http://blockopedia.com/rtoinfo.php?vehicle_no=$vno"; 	 
+			$curl = curl_init();
+			curl_setopt($curl, CURLOPT_URL, $burl);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); 
+			curl_setopt($curl, CURLOPT_TIMEOUT, 100); //timeout in seconds
+			$result = curl_exec($curl); 
+			curl_close();
+			$details = json_decode($result);
+			
+			if($details->msg != 'nodata') {
+				$msg = "dbsuccess";
+				$reg_no = $details->reg_no; 
+				$reg_at = $details->reg_at; 
+				$reg_date = $details->reg_date; 
+				$chasi_no = $details->chasi_no; 
+				$engine_no = $details->engine_no; 
+				$owner_name = $details->owner_name; 
+				$vehicle_class = $details->vehicle_class; 
+				$fuel_type = $details->fuel_type; 
+				$maker_model = $details->maker_model; 
+				$mobile = $details->mobile; 
+				
+				$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
+				
+				return new JsonModel(array(
+					'details'	  => $data,
+				));
+			} else {
+				//$msg = "Registration does not Exist"; 
+				$msg = "dbfail"; 
+				
+				$reg_no = $reg_number; 
+				$reg_at = "N/A"; 
+				$reg_date = "N/A";  
+				$chasi_no = "N/A"; 
+				$engine_no = "N/A";  
+				$owner_name = "N/A"; 
+				$vehicle_class = "N/A"; 
+				$fuel_type = "N/A"; 
+				$maker_model = "N/A"; 
+				$mobile = ""; 
+				
+				$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
+
+				return new JsonModel(array(
+					'details'	  => $data,
+				));
+				
+			}
+			
+		} else {
+			//$msg = "Registration does not Exist"; 
+			$msg = "dbsuccess"; 
+			
+			$reg_no = $reg_number; 
+			$reg_at = "Download Suitableapps RTO vehicle information app to know owner name"; 
+			$reg_date = "Download Suitableapps RTO vehicle information app to know registration date";  
+			$chasi_no = "N/A"; 
+			$engine_no = "N/A";  
+			$owner_name = "Download Suitableapps RTO vehicle information app to know owner name"; 
+			$vehicle_class = "N/A"; 
+			$fuel_type = "N/A"; 
+			$maker_model = "N/A"; 
+			$mobile = ""; 
+			
+			$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
+
+			return new JsonModel(array(
+				'details'	  => $data,
+			));
+		}		
+		// End New code
+	    exit;
+		
 		
 		if($getfromdb =="yes") { 
 			$reg_no = "";
@@ -103,10 +182,10 @@ class GetInfoApiController extends AbstractRestfulController
 				// $result = curl_exec($curl); 
 				// curl_close();
 			// }
-			$dbquery = 'yes';
-			//$resultSet = $this->getViechInfo($reg_number);
-			//if(isset($resultSet) && !empty($resultSet)){
-			if($dbquery != 'yes'){
+			// $dbquery = 'yes';
+			$resultSet = $this->getViechInfo($reg_number);
+			if(isset($resultSet) && !empty($resultSet)){
+			// if($dbquery != 'yes'){
 				$msg = "dbsuccess";
 				$noofview      = $resultSet['noofviews'];
 				$reg_at        = $resultSet['regrto'];
@@ -234,8 +313,8 @@ class GetInfoApiController extends AbstractRestfulController
 							));
 						
 						} else {
-						    $msg = "Registration does not Exist"; 
-							//$msg = "dbfail"; 
+						    //$msg = "Registration does not Exist"; 
+							$msg = "dbfail"; 
 							
 							$reg_no = $reg_number; 
 							$reg_at = "N/A"; 
@@ -259,33 +338,33 @@ class GetInfoApiController extends AbstractRestfulController
 						
 						
 					}
-					// else {
-							// $msg = "Registration does not Exist"; 
-							// $msg = "dbfail";  
+					else {
+							//$msg = "Registration does not Exist"; 
+							$msg = "dbfail";  
 							
-							// $reg_no = $reg_number; 
-							// $reg_at = "N/A"; 
-							// $reg_date = "N/A";  
-							// $chasi_no = "N/A"; 
-							// $engine_no = "N/A";  
-							// $owner_name = "N/A"; 
-							// $vehicle_class = "N/A"; 
-							// $fuel_type = "N/A"; 
-							// $maker_model = "N/A"; 
-							// $mobile = ""; 
+							$reg_no = $reg_number; 
+							$reg_at = "N/A"; 
+							$reg_date = "N/A";  
+							$chasi_no = "N/A"; 
+							$engine_no = "N/A";  
+							$owner_name = "N/A"; 
+							$vehicle_class = "N/A"; 
+							$fuel_type = "N/A"; 
+							$maker_model = "N/A"; 
+							$mobile = ""; 
 							
-							// $rtoInfo = array(
-								// 'reg_number'  => $reg_no,  
-							// );
-							// $insertedvalue = $this->insertRtomissData($rtoInfo);
+							$rtoInfo = array(
+								'reg_number'  => $reg_no,  
+							);
+							$insertedvalue = $this->insertRtomissData($rtoInfo);
 							
-							// $data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
+							$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
 
-							// return new JsonModel(array(
-								// 'details'	  => $data,
-							// ));
+							return new JsonModel(array(
+								'details'	  => $data,
+							));
 							
-						// }
+						}
 								
 				}
 				

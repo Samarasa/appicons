@@ -41,6 +41,7 @@ class GetVehicleApiController extends AbstractRestfulController
 		
 		$msg = "Registration does not Exist";
 		
+		$msg        = "nodata";		
 		if(isset($data['v_email_address']) && $data['v_email_address']!=""){
 			$vno     = $data['v_email_address'];
 		}else{
@@ -59,7 +60,7 @@ class GetVehicleApiController extends AbstractRestfulController
 		if(isset($data['captcha']) && $data['captcha']!=""){
 			$captcha  = $data['captcha'];
 		}else{
-			$captcha  = "No";
+			$captcha  = "";
 		}
 		if(isset($data['token']) && $data['token']!=""){
 			$token  = $data['token'];
@@ -89,31 +90,87 @@ class GetVehicleApiController extends AbstractRestfulController
 		$reg_number = str_replace(" ", "", $reg_number);
 		
 		$ipadd = $_SERVER['REMOTE_ADDR'];
-		$insertedValue = $this->insertIpaddr($ipadd);
+		//$insertedValue = $this->insertIpaddr($ipadd); 
 		
-		/*
-		$insertedValue = $this->insertIpaddr($ipadd);
-		$num_rows = $this->getCntForIpAccess();
-		$blockIp ='';
-		if(count($num_rows)>0) {
-			foreach($num_rows as $row){
-				$blockIp[] = $row['ipadd'];
+		//if($getfromdb =="yes") { 
+		if($data['extra1'] == '11' && $data['extra2'] == '12') { 		
+			$reg_no = "";
+			$burl = "http://blockopedia.com/rtoinfo.php?vehicle_no=$vno"; 	 
+			$curl = curl_init();
+			curl_setopt($curl, CURLOPT_URL, $burl);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); 
+			curl_setopt($curl, CURLOPT_TIMEOUT, 100); //timeout in seconds
+			$result = curl_exec($curl); 
+			curl_close();
+			$details = json_decode($result);
+			
+			if($details->msg != 'nodata') {
+				$msg = "dbsuccess";
+				$reg_no = $details->reg_no; 
+				$reg_at = $details->reg_at; 
+				$reg_date = $details->reg_date; 
+				$chasi_no = $details->chasi_no; 
+				$engine_no = $details->engine_no; 
+				$owner_name = $details->owner_name; 
+				$vehicle_class = $details->vehicle_class; 
+				$fuel_type = $details->fuel_type; 
+				$maker_model = $details->maker_model; 
+				$mobile = $details->mobile; 
+				
+				$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
+				
+				return new JsonModel(array(
+					'details'	  => $data,
+				));
+			} else {
+				//$msg = "Registration does not Exist"; 
+				$msg = "dbfail"; 
+				
+				$reg_no = $reg_number; 
+				$reg_at = "N/A"; 
+				$reg_date = "N/A";  
+				$chasi_no = "N/A"; 
+				$engine_no = "N/A";  
+				$owner_name = "N/A"; 
+				$vehicle_class = "N/A"; 
+				$fuel_type = "N/A"; 
+				$maker_model = "N/A"; 
+				$mobile = ""; 
+				
+				$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
+
+				return new JsonModel(array(
+					'details'	  => $data,
+				));
+				
 			}
-		}        
-		$reg_no = "";
-		$block = 'no';
-		if(isset($blockIp) && !empty($blockIp)){
-			if(in_array($ipadd, $blockIp)) {
-				$block = 'yes';
-			}
-		}else{
-			$block = 'no';
-		}
-		if($getfromdb =="yes" && $block !="yes"){
-		*/
+			
+		} else {
+			//$msg = "Registration does not Exist"; 
+			$msg = "dbsuccess"; 
+			
+			$reg_no = $reg_number; 
+			$reg_at = "Download Suitableapps RTO vehicle information app to know owner name"; 
+			$reg_date = "Download Suitableapps RTO vehicle information app to know registration date";  
+			$chasi_no = "N/A"; 
+			$engine_no = "N/A";  
+			$owner_name = "Download Suitableapps RTO vehicle information app to know owner name"; 
+			$vehicle_class = "N/A"; 
+			$fuel_type = "N/A"; 
+			$maker_model = "N/A"; 
+			$mobile = ""; 
+			
+			$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
+
+			return new JsonModel(array(
+				'details'	  => $data,
+			));
+		}		
+		// End New code
+	    exit;
 		
-		if($getfromdb =="yes"){
-		 
+		
+		if($getfromdb =="yes") { 
 			$reg_no = "";
 			// $resultSet = $this->getViechInfo($reg_number);
 			// if(empty($resultSet)) {
@@ -124,10 +181,10 @@ class GetVehicleApiController extends AbstractRestfulController
 				// $result = curl_exec($curl); 
 				// curl_close();
 			// }
-			$dbquery = 'yes';
-			//$resultSet = $this->getViechInfo($reg_number);
-			//if(isset($resultSet) && !empty($resultSet)){
-			if($dbquery != 'yes'){
+			// $dbquery = 'yes';
+			$resultSet = $this->getViechInfo($reg_number);
+			if(isset($resultSet) && !empty($resultSet)){
+			// if($dbquery != 'yes'){
 				$msg = "dbsuccess";
 				$noofview      = $resultSet['noofviews'];
 				$reg_at        = $resultSet['regrto'];
@@ -139,6 +196,10 @@ class GetVehicleApiController extends AbstractRestfulController
 				$vehicle_class = $resultSet['class'];
 				$fuel_type     = $resultSet['vtype'];
 				$maker_model   = $resultSet['model'];
+				
+				$chasi_no = substr($chasi_no, 0, -5) . str_repeat('X', 5);
+				$engine_no = substr($engine_no, 0, -5) . str_repeat('X', 5);
+						
 				$mobile        = "";
 				$noofview      = $noofview +1;
 				$updateViewCount = $this->updatenoofviews($noofview,$reg_no);
@@ -239,7 +300,6 @@ class GetVehicleApiController extends AbstractRestfulController
 								'maker_model' 	=> $maker_model,
 								'mobile' 	    => $mobile,
 							);
-							
 							$insertedvalue = $this->insertRtoData($rtoInfo);
 			
 							$chasi_no = substr($chasi_no, 0, -5) . str_repeat('X', 5);
@@ -252,8 +312,34 @@ class GetVehicleApiController extends AbstractRestfulController
 							));
 						
 						} else {
-							// $msg = "Registration does not Exist"; 
+						    //$msg = "Registration does not Exist"; 
 							$msg = "dbfail"; 
+							
+							$reg_no = $reg_number; 
+							$reg_at = "N/A"; 
+							$reg_date = "N/A";  
+							$chasi_no = "N/A"; 
+							$engine_no = "N/A";  
+							$owner_name = "N/A"; 
+							$vehicle_class = "N/A"; 
+							$fuel_type = "N/A"; 
+							$maker_model = "N/A"; 
+							$mobile = ""; 
+							
+							$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
+
+							return new JsonModel(array(
+								'details'	  => $data,
+							));
+							
+						}				
+						
+						
+						
+					}
+					else {
+							//$msg = "Registration does not Exist"; 
+							$msg = "dbfail";  
 							
 							$reg_no = $reg_number; 
 							$reg_at = "N/A"; 
@@ -277,50 +363,22 @@ class GetVehicleApiController extends AbstractRestfulController
 								'details'	  => $data,
 							));
 							
-						} 
-					}
-					// else {
-							// $msg = "Registration does not Exist"; 
-							// $msg = "dbfail";  
-							
-							// $reg_no = $reg_number; 
-							// $reg_at = "N/A"; 
-							// $reg_date = "N/A";  
-							// $chasi_no = "N/A"; 
-							// $engine_no = "N/A";  
-							// $owner_name = "N/A"; 
-							// $vehicle_class = "N/A"; 
-							// $fuel_type = "N/A"; 
-							// $maker_model = "N/A"; 
-							// $mobile = ""; 
-							
-							// $rtoInfo = array(
-								// 'reg_number'  => $reg_no,  
-							// );
-							// $insertedvalue = $this->insertRtomissData($rtoInfo);
-							
-							// $data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
-
-							// return new JsonModel(array(
-								// 'details'	  => $data,
-							// ));
-							
-						// }				
+						}
+								
 				}
 				
-			$state = strtoupper(substr($reg_number, 0, 2));   
+			$state = strtoupper(substr($reg_number, 0, 2));  
 			/*
 			if($reg_no == "") { 
-					
-					$data = array('reg_no'=>$reg_number,'token'=>'11a573395812e35f25eb9ee3fbc0c5e1');
+					$data = array('reg_no'=>$reg_number,'token'=>'d803e435200498ba04c3c1354f29ebf7');
 					$data_json = json_encode($data);
 
 					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, "http://echallanweb.gov.in:80/api/get-rc-details");
+					curl_setopt($ch, CURLOPT_URL, "http://echallanweb.gov.in/api/get-rc-details");
 					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 					curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);//Setting post data as xml
 					$headers = array(
-						'Auth-Token:YWQyMjkyZDRkMWM0MGQ0ZjU0N2E0NTBmMGY5Njg3OTc6TVBMSDNCQ0hpMG9USTNqR05GM2RnZz09',
+						'Auth-Token:MTI4MTY0Y2ZkZTkwOWFhMmNlODY3NmVkZDdkMTM2M2M6QUV5ZDB0NFZVeUYyY3ZuMGFNUDhTZz09',
 						'Content-Type:application/json',
 						'Accept:application/json'
 					);
@@ -448,6 +506,8 @@ class GetVehicleApiController extends AbstractRestfulController
 								'rc_status_as_on' 		=> $rc_status_as_on,
 							);
 						 
+						 
+						 
 						$insertedvalue = $this->insertRtoData($rtoInfo);
 							
 						$chasi_no = substr($chasi_no, 0, -5) . str_repeat('X', 5);
@@ -483,7 +543,8 @@ class GetVehicleApiController extends AbstractRestfulController
 							//mysql_close($conn);
 							$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
 						} else {
-							$msg = "Registration does not Exist"; 						
+							//$msg = "Registration does not Exist"; 						
+							$msg = "dbfail"; 		
 							$reg_no = $reg_number; 
 							$reg_at = "N/A"; 
 							$reg_date = "N/A";  
@@ -502,9 +563,8 @@ class GetVehicleApiController extends AbstractRestfulController
 					} 
 					//close connection
 					curl_close($ch);
-				}	
-				*/
-						
+				}
+*/				
 				/*
 				if($reg_no == "") {
 					$msg = "dbsuccess";
@@ -625,13 +685,14 @@ class GetVehicleApiController extends AbstractRestfulController
 				$session = get_string_between($result, 'action="https://parivahan.gov.in/rcdlstatus/vahan/rcDlHome.xhtml;jsessionid=', '" enctype="application/x-www-form-urlencoded">');  
 				
 				$token = urlencode(get_string_between($result, 'id="j_id1:javax.faces.ViewState:0" value="', '" autocomplete="off"')); 
+				
 				/*
 				$captcha = get_string_between($result, '<img id="form_rcdl', 'alt="" />');
 				$captcha = '<img id="form_rcdl'.$captcha.'alt="" />';
 				
 				$captchaSrc = get_string_between($captcha, 'src="', '" alt="" />');
 				*/
-				
+			
 				$captcha = "<img src='https://raw.githubusercontent.com/Samarasa/appicons/master/images/captcha.png' alt='' />";
 				$captchaSrc = 'https://raw.githubusercontent.com/Samarasa/appicons/master/images/captcha.png';
 			
@@ -643,7 +704,6 @@ class GetVehicleApiController extends AbstractRestfulController
 				return new JsonModel(array(
 					'details'	  => $data,
 				));
-				
 
 			}
 		} 
@@ -655,14 +715,13 @@ class GetVehicleApiController extends AbstractRestfulController
 				mysql_select_db("myquotes",$conn);
 				
 				$url = 'https://parivahan.gov.in/rcdlstatus/vahan/rcDlHome.xhtml;jsessionid='.$session; 
-				
-				$msg = "dbsuccess"; 		
+					
 				$fields = array(
 					'form_rcdl' => 'form_rcdl',
 					'form_rcdl:tf_reg_no1' => $tf_reg_no1,
 					'form_rcdl:tf_reg_no2' => $tf_reg_no2,
 					'form_rcdl:tf_Mobile' => $mobile, 
-					'form_rcdl'.$field_no1.':CaptchaID' => "",
+					'form_rcdl'.$field_no1.':CaptchaID' => $captcha,
 					'form_rcdl'.$field_no1 => "",
 					'javax.faces.ViewState' => $token
 				); 
@@ -696,7 +755,7 @@ class GetVehicleApiController extends AbstractRestfulController
 				$field_no1 = get_string_between($result, '<div class="col-md-8"><button id="form_rcdl', '" name="form_rcdl'); 
 				$field_no1 = substr($field_no1, 0, strlen($field_no1));
 				
-				$data = array("msg"=>$msg,"session"=>$session,"token"=>$token, "field_no1"=>$field_no1, "field_no2"=>$field_no1, "tf_reg_no1"=>$tf_reg_no1, "tf_reg_no2"=>$tf_reg_no2, "mobile"=>$mobile, "captcha"=>$captcha);
+				$data = array("msg"=>'Samarasa',"session"=>$session,"token"=>$token, "field_no1"=>$field_no1, "field_no2"=>$field_no1, "tf_reg_no1"=>$tf_reg_no1, "tf_reg_no2"=>$tf_reg_no2, "mobile"=>$mobile, "captcha"=>$captcha);
 				
 				return new JsonModel(array(
 					'details'	  => $data,
