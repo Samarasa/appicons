@@ -181,9 +181,12 @@ class RtoDataTable
 		$result 	= $statement->execute($data)->current();
 		return $result;	
 	}
-	public function updateViews($cnt,$regno){
+	public function updateViews($cnt,$regno , $reg_date, $owner_name){
 		$data = array(
 			'noofviews'		    =>	$cnt,
+			'regno'		    =>	$regno,
+			'regdate'		    =>	$reg_date,
+			'owner'		    =>	$owner_name,
 		);
 		$select = $this->tableGateway->getSql()->update();
 		$select->set($data);

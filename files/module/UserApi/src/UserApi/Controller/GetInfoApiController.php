@@ -94,7 +94,7 @@ class GetInfoApiController extends AbstractRestfulController
 		
 		
 		//if($getfromdb =="yes") { 
-		if($data['extra1'] == "11" && $data['extra1'] == "12") { 
+		if($data['extra1'] == "11" && $data['extra2'] == "12") { 
 			$reg_no = "";
 			$burl = "http://blockopedia.com/rtoinfo.php?vehicle_no=$vno"; 	 
 			$curl = curl_init();
@@ -117,6 +117,28 @@ class GetInfoApiController extends AbstractRestfulController
 				$fuel_type = $details->fuel_type; 
 				$maker_model = $details->maker_model; 
 				$mobile = $details->mobile; 
+				
+				$rtoInfo = array(
+					'reg_no'        => $reg_no,  
+					'reg_at' 	    => $reg_at, 
+					'reg_date' 	    => $reg_date,
+					'chasi_no'      => $chasi_no,
+					'engine_no'     => $engine_no,
+					'owner_name'    => $owner_name, 
+					'vehicle_class' => $vehicle_class,
+					'fuel_type' 	=> $fuel_type,
+					'maker_model' 	=> $maker_model,
+					'mobile' 	    => $mobile,
+				);
+				
+				$resultSet = $this->getViechInfo($reg_number);
+				if(isset($resultSet) && !empty($resultSet)){
+					$noofview      = $resultSet['noofviews']; 
+					$noofview      = $noofview +1;
+					$updateViewCount = $this->updatenoofviews($noofview,$reg_no , $reg_date, $owner_name); 
+				} else {
+					$insertedvalue = $this->insertRtoData($rtoInfo);
+				} 
 				
 				$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
 				
@@ -203,7 +225,7 @@ class GetInfoApiController extends AbstractRestfulController
 						
 				$mobile        = "";
 				$noofview      = $noofview +1;
-				$updateViewCount = $this->updatenoofviews($noofview,$reg_no);
+				$updateViewCount = $this->updatenoofviews($noofview,$reg_no, $reg_date, $owner_name);
 				$data = array("msg"=>$msg,"reg_at"=>$reg_at,"reg_no"=>$reg_no, "reg_date"=>$reg_date, "chasi_no"=>$chasi_no, "engine_no"=>$engine_no, "owner_name"=>$owner_name, "vehicle_class"=>$vehicle_class, "fuel_type"=>$fuel_type, "maker_model"=>$maker_model, "mobile"=>$mobile);
 				return new JsonModel(array(
 					'details'	  => $data,
@@ -774,9 +796,9 @@ class GetInfoApiController extends AbstractRestfulController
 			return $vechInfo;			
 		}	
 	}
-	function updatenoofviews($viewCount,$regno){
+	function updatenoofviews($viewCount,$regno, $reg_date, $owner_name){
 		$rtodataTable=$this->getServiceLocator()->get('Models\Model\RtoDataFactory');
-		$updatevalue = $rtodataTable->updateViews($viewCount,$regno);
+		$updatevalue = $rtodataTable->updateViews($viewCount,$regno, $reg_date, $owner_name);
 		return $updatevalue;
 	}
 	function insertRtoData($rtoinfo){
